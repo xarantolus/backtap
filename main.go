@@ -77,20 +77,36 @@ func main() {
 
 		text := scan.Text()
 
-		if strings.HasPrefix(text, "report_input_event") && strings.HasSuffix(text, "0") {
-			if time.Since(lastTapTime) < 750*time.Millisecond {
-				err = input.PressPowerButton(keyDevice)
-				if err != nil {
-					panic("pressing power button: " + err.Error())
+		if strings.HasPrefix(text, "report_input_event") {
+			lastChar := text[len(text)-1]
+
+			if lastChar == '0' {
+				// The finger was just lifted from the sensor
+
+				if time.Since(lastTapTime) < 750*time.Millisecond {
+					err = input.PressPowerButton(keyDevice)
+					if err != nil {
+						panic("pressing power button: " + err.Error())
+					}
+				} else {
+					// Top left coordinates
+
+					err = input.TouchUp(touchDevice)
+					if err != nil {
+						panic("running touch command: " + err.Error())
+					}
 				}
-			} else {
-				// Top left coordinates
-				err = input.RunTouch(touchDevice, 35, 105)
+
+				lastTapTime = time.Now()
+			} else if lastChar == '1' {
+				// The finger was just put on the sensor
+
+				err = input.TouchDown(touchDevice, 30, 105)
 				if err != nil {
 					panic("running touch command: " + err.Error())
 				}
 			}
-			lastTapTime = time.Now()
+
 		}
 	}
 

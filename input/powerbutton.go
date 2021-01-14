@@ -1,9 +1,7 @@
 package input
 
 import (
-	"encoding/binary"
 	"io"
-	"time"
 )
 
 /*
@@ -21,28 +19,22 @@ const (
 )
 
 func PressPowerButton(output io.Writer) (err error) {
-	err = binary.Write(output, binary.LittleEndian, InputEvent{
-		Type:  EV_KEY,
-		Code:  POWER_BUTTON,
-		Value: DOWN,
+	return runEvents(output, []InputEvent{
+		{
+			Type:  EV_KEY,
+			Code:  POWER_BUTTON,
+			Value: DOWN,
+		},
+		eventSynReport,
+		{
+			Type:  PAUSE,
+			Value: 25,
+		},
+		{
+			Type:  EV_KEY,
+			Code:  POWER_BUTTON,
+			Value: UP,
+		},
+		eventSynReport,
 	})
-	if err != nil {
-		return err
-	}
-	err = binary.Write(output, binary.LittleEndian, eventSynReport)
-	if err != nil {
-		return err
-	}
-	time.Sleep(25 * time.Millisecond)
-	err = binary.Write(output, binary.LittleEndian, InputEvent{
-		Type:  EV_KEY,
-		Code:  POWER_BUTTON,
-		Value: UP,
-	})
-	if err != nil {
-		return err
-	}
-	err = binary.Write(output, binary.LittleEndian, eventSynReport)
-
-	return err
 }

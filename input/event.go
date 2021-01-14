@@ -1,7 +1,10 @@
 package input
 
 import (
+	"encoding/binary"
+	"io"
 	"syscall"
+	"time"
 )
 
 // We need the input_event struct from https://android.googlesource.com/platform/system/core/+/froyo-release/toolbox/sendevent.c
@@ -113,6 +116,10 @@ const (
 	UP   = 0x00000000
 )
 
+const (
+	PAUSE EventType = 0x3210
+)
+
 var (
 	eventSynReport = InputEvent{
 		Type:  EV_SYN,
@@ -120,3 +127,20 @@ var (
 		Value: 0x00000000,
 	}
 )
+
+func runEvents(output io.Writer, events []InputEvent) (err error) {
+	for _, ievent := range events {
+		// The PAUSE event doesn't exist, I just chose the number
+		if ievent.Type == PAUSE {
+			time.Sleep(time.Duration(ievent.Value) * time.Millisecond)
+			continue
+		}
+
+		err = binary.Write(output, binary.LittleEndian, ievent)
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
