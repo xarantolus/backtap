@@ -15,12 +15,12 @@ func RunTouch(output io.Writer, x, y uint32) (err error) {
 		{
 			Type:  EV_KEY,
 			Code:  BTN_TOUCH,
-			Value: TOUCH_VALUE_DOWN,
+			Value: DOWN,
 		},
 		{
 			Type:  EV_KEY,
 			Code:  BTN_TOOL_FINGER,
-			Value: TOUCH_VALUE_DOWN,
+			Value: DOWN,
 		},
 		{
 			Type:  EV_ABS,
@@ -46,12 +46,12 @@ func RunTouch(output io.Writer, x, y uint32) (err error) {
 		{
 			Type:  EV_KEY,
 			Code:  BTN_TOUCH,
-			Value: TOUCH_VALUE_UP,
+			Value: UP,
 		},
 		{
 			Type:  EV_KEY,
 			Code:  BTN_TOOL_FINGER,
-			Value: TOUCH_VALUE_UP,
+			Value: UP,
 		},
 		eventSynReport,
 	}

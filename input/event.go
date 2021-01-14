@@ -109,8 +109,8 @@ const (
 )
 
 const (
-	TOUCH_VALUE_DOWN = 0x00000001
-	TOUCH_VALUE_UP   = 0x00000000
+	DOWN = 0x00000001
+	UP   = 0x00000000
 )
 
 var (

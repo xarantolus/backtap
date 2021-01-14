@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"context"
 	"fmt"
-	"io"
 	"os"
 	"os/exec"
 	"strings"
@@ -37,19 +36,6 @@ func main() {
 	// makes sure the logcat command is killed afterwards
 	defer cancel()
 
-	shell := exec.CommandContext(ctx, "sh", "-li")
-
-	shellIn, err := shell.StdinPipe()
-	if err != nil {
-		panic("connecting shell stdin pipe: " + err.Error())
-	}
-	defer shellIn.Close()
-
-	err = shell.Start()
-	if err != nil {
-		panic("starting shell: " + err.Error())
-	}
-
 	// --format=raw makes sure we don't get unnecessary time info
 	var watcher = exec.CommandContext(ctx, logcatCommand, "--format=raw")
 
@@ -62,6 +48,12 @@ func main() {
 	if err != nil {
 		panic("starting logcat: " + err.Error())
 	}
+
+	keyDevice, err := os.OpenFile("/dev/input/event0", os.O_WRONLY, os.ModeDevice)
+	if err != nil {
+		panic("opening touch device input file: " + err.Error())
+	}
+	defer keyDevice.Close()
 
 	touchDevice, err := os.OpenFile("/dev/input/event1", os.O_WRONLY, os.ModeDevice)
 	if err != nil {
@@ -87,12 +79,12 @@ func main() {
 
 		if strings.HasPrefix(text, "report_input_event") && strings.HasSuffix(text, "0") {
 			if time.Since(lastTapTime) < 750*time.Millisecond {
-				err = writeShell(shellIn, "input keyevent 26")
+				err = input.PressPowerButton(keyDevice)
 				if err != nil {
-					panic("turning off screen: " + err.Error())
+					panic("pressing power button: " + err.Error())
 				}
 			} else {
-
+				// Top left coordinates
 				err = input.RunTouch(touchDevice, 35, 105)
 				if err != nil {
 					panic("running touch command: " + err.Error())
@@ -102,9 +94,4 @@ func main() {
 		}
 	}
 
-}
-
-func writeShell(shell io.Writer, cmd string) (err error) {
-	_, err = fmt.Fprintln(shell, cmd)
-	return
 }
