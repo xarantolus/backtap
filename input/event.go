@@ -19,6 +19,8 @@ struct input_event {
 */
 
 /*
+$ getevent
+
 add device 7: /dev/input/event1
   name:     "synaptics_dsx"
   events:
@@ -53,6 +55,7 @@ add device 7: /dev/input/event1
 /*
 Putting finger in top left corner:
 
+$ getevent
 /dev/input/event1: 0003 0039 000000e7 -
 /dev/input/event1: 0001 014a 00000001 -
 /dev/input/event1: 0001 0145 00000001 -
@@ -67,6 +70,7 @@ Putting finger in top left corner:
 
 Same thing:
 
+$ getevent
 /dev/input/event1: EV_ABS       ABS_MT_TRACKING_ID   000000e8 - *
 /dev/input/event1: EV_KEY       BTN_TOUCH            DOWN     - *
 /dev/input/event1: EV_KEY       BTN_TOOL_FINGER      DOWN     - *

@@ -63,7 +63,10 @@ func main() {
 
 	scan := bufio.NewScanner(stdout)
 
-	var lastTapTime time.Time
+	var (
+		lastTapTime   time.Time
+		lastPowerTime time.Time
+	)
 
 	for scan.Scan() {
 		// The first few seconds of running should not process anything
@@ -84,27 +87,24 @@ func main() {
 				// The finger was just lifted from the sensor
 
 				if time.Since(lastTapTime) < 750*time.Millisecond {
-					err = input.PressPowerButton(keyDevice)
-					if err != nil {
-						panic("pressing power button: " + err.Error())
+					// This prevents pressing the power button twice quickly, which would open the default camera
+					if time.Since(lastPowerTime) > 750*time.Millisecond {
+						err = input.PressPowerButton(keyDevice)
+						if err != nil {
+							panic("pressing power button: " + err.Error())
+						}
+						lastPowerTime = time.Now()
 					}
 				} else {
 					// Top left coordinates
 
-					err = input.TouchUp(touchDevice)
+					err = input.TouchUpDown(touchDevice, 35, 105)
 					if err != nil {
 						panic("running touch command: " + err.Error())
 					}
 				}
 
 				lastTapTime = time.Now()
-			} else if lastChar == '1' {
-				// The finger was just put on the sensor
-
-				err = input.TouchDown(touchDevice, 30, 105)
-				if err != nil {
-					panic("running touch command: " + err.Error())
-				}
 			}
 
 		}

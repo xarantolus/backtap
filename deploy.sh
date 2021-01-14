@@ -2,7 +2,7 @@ echo "Building"
 ./build.sh
 
 echo "Pushing"
-adb push "backtap" 'sdcard/'
+adb push -p "backtap" 'sdcard/'
 
 echo "Install"
 # adb shell "su -c \"killall backtap\" || true" || true

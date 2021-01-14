@@ -4,7 +4,7 @@ import (
 	"io"
 )
 
-func RunTouch(output io.Writer, x, y uint32) (err error) {
+func TouchUpDown(output io.Writer, x, y uint32) (err error) {
 	var touch = []InputEvent{
 		{
 			Type:  EV_ABS,
@@ -24,12 +24,12 @@ func RunTouch(output io.Writer, x, y uint32) (err error) {
 		{
 			Type:  EV_ABS,
 			Code:  ABS_MT_POSITION_X,
-			Value: 0x00000071,
+			Value: x,
 		},
 		{
 			Type:  EV_ABS,
 			Code:  ABS_MT_POSITION_Y,
-			Value: 0x000000a3,
+			Value: y,
 		},
 		{
 			Type:  EV_ABS,
