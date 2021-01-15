@@ -62,6 +62,13 @@ func main() {
 	}
 	defer touchDevice.Close()
 
+	debug("opening home button device")
+	homeDevice, err := os.OpenFile("/dev/input/event2", os.O_WRONLY, os.ModeDevice)
+	if err != nil {
+		panic("opening home button device input file: " + err.Error())
+	}
+	defer homeDevice.Close()
+
 	// The last time a certain action was performed
 	var (
 		lastTapTime   time.Time
@@ -86,7 +93,7 @@ func main() {
 
 			// The finger was just lifted from the sensor
 
-			// This sends - if possible - an abort signal to the button holding goroutine below
+			// This sends - if it's running - an abort signal to the button holding goroutine below
 			select {
 			case buttonAbort <- false:
 			default:
@@ -94,7 +101,7 @@ func main() {
 
 			backButtonLock.Lock()
 			if backButtonPressed {
-				debug("Not clicking because we just ran the FORWARD command")
+				debug("Not clicking because we just ran the HOME command")
 				backButtonPressed = false
 				backButtonLock.Unlock()
 			} else {
@@ -117,7 +124,6 @@ func main() {
 					}
 				} else {
 					// Top left coordinates
-
 					debug("Running TOUCH command")
 					err = input.TouchUpDown(touchDevice, 35, 105)
 					if err != nil {
@@ -132,24 +138,24 @@ func main() {
 			go func() {
 				select {
 				case <-buttonAbort:
-					debug("aborted FORWARD command")
+					debug("aborted HOME command")
 					return
 				case <-time.After(250 * time.Millisecond):
-					debug("Running FORWARD command")
+					debug("Running HOME command")
 
 					backButtonLock.Lock()
 					backButtonPressed = true
 					backButtonLock.Unlock()
 
-					err := exec.Command("input", "keyevent", "KEYCODE_FORWARD").Run()
+					err := exec.Command("input", "keyevent", "KEYCODE_HOME").Run()
 					if err != nil {
-						panic("pressing forward button: " + err.Error())
+						panic("pressing home button: " + err.Error())
 					}
 					err = input.Vibrate(vibratorDevice, 50)
 					if err != nil {
 						panic("cannot vibrate: " + err.Error())
 					}
-					debug("Finished FORWARD command")
+					debug("Finished HOME command")
 				}
 			}()
 

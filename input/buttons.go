@@ -17,8 +17,6 @@ $ getevents
 
 const (
 	POWER_BUTTON EventCode = 0x0074
-
-	BACK_BUTTON EventCode = 158
 )
 
 func pressButton(output io.Writer, button EventCode) (err error) {
