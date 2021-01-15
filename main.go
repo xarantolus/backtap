@@ -150,7 +150,6 @@ func main() {
 						if err != nil {
 							panic("cannot vibrate: " + err.Error())
 						}
-
 					}
 				}()
 			}
