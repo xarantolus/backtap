@@ -129,7 +129,7 @@ var (
 		{
 			Type:  EV_ABS,
 			Code:  ABS_MT_TRACKING_ID,
-			Value: 0x0000e800, // TODO: Change this
+			Value: 0x0000e800, // TODO: Change this - touch tracking ID
 		},
 		{
 			Type:  EV_KEY,
@@ -146,6 +146,7 @@ var (
 			Code:  ABS_MT_POSITION_X,
 			Value: 0x00000071,
 		},
+		// Top right corner
 		{
 			Type:  EV_ABS,
 			Code:  ABS_MT_POSITION_Y,
@@ -188,8 +189,6 @@ func main() {
 		if err != nil {
 			panic("writing to input event: " + err.Error())
 		}
-
-		// time.Sleep(10 * time.Millisecond)
 	}
 	fmt.Println("Done")
 }

@@ -9,7 +9,7 @@ func TouchUpDown(output io.Writer, x, y uint32) (err error) {
 		{
 			Type:  EV_ABS,
 			Code:  ABS_MT_TRACKING_ID,
-			Value: 0x0000e800, // TODO: Change this
+			Value: 0x0000e800, // TODO: Change this - touch tracking ID
 		},
 		{
 			Type:  EV_KEY,
