@@ -49,6 +49,12 @@ func main() {
 		panic("starting logcat: " + err.Error())
 	}
 
+	vibratorDevice, err := os.OpenFile("/sys/devices/virtual/timed_output/vibrator/enable", os.O_WRONLY, os.ModeDevice)
+	if err != nil {
+		panic("cannot open vibrator device: " + err.Error())
+	}
+	defer vibratorDevice.Close()
+
 	keyDevice, err := os.OpenFile("/dev/input/event0", os.O_WRONLY, os.ModeDevice)
 	if err != nil {
 		panic("opening touch device input file: " + err.Error())
@@ -68,6 +74,10 @@ func main() {
 		lastPowerTime time.Time
 	)
 
+	var (
+		buttonHolder      = make(chan bool)
+		backButtonPressed = false
+	)
 	for scan.Scan() {
 		// The first few seconds of running should not process anything
 		if pauseMode {
@@ -86,27 +96,64 @@ func main() {
 			if lastChar == '0' {
 				// The finger was just lifted from the sensor
 
-				if time.Since(lastTapTime) < 750*time.Millisecond {
-					// This prevents pressing the power button twice quickly, which would open the default camera
-					if time.Since(lastPowerTime) > 750*time.Millisecond {
-						err = input.PressPowerButton(keyDevice)
-						if err != nil {
-							panic("pressing power button: " + err.Error())
-						}
-						lastPowerTime = time.Now()
-					}
-				} else {
-					// Top left coordinates
-
-					err = input.TouchUpDown(touchDevice, 35, 105)
-					if err != nil {
-						panic("running touch command: " + err.Error())
-					}
+				// This sends - if possible - an abort signal to the button holding goroutine below
+				select {
+				case buttonHolder <- false:
+				default:
 				}
 
-				lastTapTime = time.Now()
-			}
+				if backButtonPressed {
+					backButtonPressed = false
+				} else {
+					if time.Since(lastTapTime) < 350*time.Millisecond {
+						// This prevents pressing the power button twice quickly, which would open the default camera
+						if time.Since(lastPowerTime) > 350*time.Millisecond {
 
+							fmt.Println("Power")
+							err = input.PressPowerButton(keyDevice)
+							if err != nil {
+								panic("pressing power button: " + err.Error())
+							}
+							lastPowerTime = time.Now()
+							err := exec.Command("input", "keyevent", "KEYCODE_BACK").Run()
+							if err != nil {
+								panic("pressing back button: " + err.Error())
+							}
+
+						}
+					} else {
+						// Top left coordinates
+
+						fmt.Println("Topleft")
+						err = input.TouchUpDown(touchDevice, 35, 105)
+						if err != nil {
+							panic("running touch command: " + err.Error())
+						}
+					}
+					lastTapTime = time.Now()
+				}
+			} else if lastChar == '1' {
+				go func() {
+					select {
+					case <-buttonHolder:
+						return
+					case <-time.After(250 * time.Millisecond):
+
+						fmt.Println("Back")
+						backButtonPressed = true
+
+						err := exec.Command("input", "keyevent", "KEYCODE_BACK").Run()
+						if err != nil {
+							panic("pressing back button: " + err.Error())
+						}
+						err = input.Vibrate(vibratorDevice, 50)
+						if err != nil {
+							panic("cannot vibrate: " + err.Error())
+						}
+
+					}
+				}()
+			}
 		}
 	}
 

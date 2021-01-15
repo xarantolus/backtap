@@ -17,13 +17,15 @@ $ getevents
 
 const (
 	POWER_BUTTON EventCode = 0x0074
+
+	BACK_BUTTON EventCode = 158
 )
 
-func PressPowerButton(output io.Writer) (err error) {
+func pressButton(output io.Writer, button EventCode) (err error) {
 	return runEvents(output, []InputEvent{
 		{
 			Type:  EV_KEY,
-			Code:  POWER_BUTTON,
+			Code:  button,
 			Value: DOWN,
 		},
 		eventSynReport,
@@ -33,9 +35,14 @@ func PressPowerButton(output io.Writer) (err error) {
 		},
 		{
 			Type:  EV_KEY,
-			Code:  POWER_BUTTON,
+			Code:  button,
 			Value: UP,
 		},
 		eventSynReport,
 	})
+
+}
+
+func PressPowerButton(output io.Writer) (err error) {
+	return pressButton(output, POWER_BUTTON)
 }
