@@ -4,5 +4,5 @@ MODDIR=${0%/*}
 # make sure it's executable
 chmod +x $MODDIR/common/backtap
 
-# Run the service!
-$MODDIR/common/backtap
+# Run the service in background!
+$MODDIR/common/backtap &
