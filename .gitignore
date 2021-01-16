@@ -2,3 +2,5 @@
 
 backtap
 !cmd/backtap
+!module/backtap
+*.zip
