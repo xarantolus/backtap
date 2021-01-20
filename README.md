@@ -97,11 +97,11 @@ The concept was simple: Whenever a certain line appeared in the system log (indi
 The problem with this was that this method is *noticeably* slow. As in I clicked the sensor, waited for some time and only then the action happend. It took about 500-1000ms, which was just too slow to be usable.
 
 #### Speeding up
-In my search for a faster solution I took a look at what the input command actually does: it is a bash script starting a whole new Java program that writes a quite small signal to the display. You can cut out two middlemen if done right.
+In my search for a faster solution I took a look at what the input command actually does: it is a shell script starting a whole Java program that writes a quite small signal to the display. You can cut out two middlemen if done right.
 
 So I took a look on *what* was written. If that program can write the required signal, so could a faster one. That's how this project was born.
 
-I basically used the android command-line tool `getevent` to see what was written and noticed that I would have to write certain bits to certain files to make it work.
+I basically used the Android command-line tool `getevent` to see what was written and noticed that I would have to write certain bits to certain files to make it work.
 
 To be more specific, one has to write an [`input_event`](https://android.googlesource.com/platform/system/core/+/froyo-release/toolbox/sendevent.c#13) which looks like this
 ```c
@@ -139,3 +139,8 @@ If not, you have to look into what the `GOARCH` environment variable does and th
 
 ### Adapting to other phones
 Adapting this program to run on other phone models and configurations should be possible. You would have to change the `logcat` line that is detected and the way these commands are executed. It is likely that the names of input devices differ. The way the touchscreen tap works should be the same, as that's based on on a protocol that seems to have been used for quite a long time by many different companies (since it's part of Linux).
+
+### Something interesting
+The Android lockscreen heavily restricts how other programs can interact with it, e.g. the `input tap` command doesn't work there at all. 
+
+My solution is not just faster, but also doesn't have this restriction and could thus be used for automation of lockscreen taps (if anyone wanted to do that...).
