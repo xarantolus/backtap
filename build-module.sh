@@ -3,8 +3,10 @@ set -e
 # We just build the executable
 ./build.sh
 
+mkdir -p module/backtap/system/bin
+
 # move it to our module
-mv backtap module/backtap/common/backtap
+mv backtap module/backtap/system/bin/backtap
 
 cd module/backtap
 

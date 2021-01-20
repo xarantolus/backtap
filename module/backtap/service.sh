@@ -1,8 +1,23 @@
+#!/system/bin/sh
+
 # This script runs on boot. Here we can start our service
 MODDIR=${0%/*}
 
-# make sure it's executable
-chmod +x $MODDIR/common/backtap
+# Wait until boot & decryption finished
+until [ -d /sdcard/Download ]
+do
+  sleep 5
+done
+pgrep zygote > /dev/null && {
+  until [ .$(getprop sys.boot_completed) = .1 ]
+  do
+    sleep 5
+  done
+}
+
+chmod +x /system/bin/backtap
 
 # Run the service in background!
-$MODDIR/common/backtap &
+backtap -debug >> /sdcard/backtap.log 2>&1 &
+
+
