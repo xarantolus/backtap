@@ -17,7 +17,5 @@ pgrep zygote > /dev/null && {
 
 chmod +x /system/bin/backtap
 
-# Run the service in background!
-backtap -debug >> /sdcard/backtap.log 2>&1 &
-
+setsid backtap >/sdcard/backtap.log 2>&1 < /dev/null &
 

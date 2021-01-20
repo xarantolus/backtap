@@ -97,6 +97,8 @@ func main() {
 			select {
 			case buttonAbort <- false:
 			default:
+				{
+				}
 			}
 
 			backButtonLock.Lock()

@@ -26,5 +26,5 @@ set_permissions() {
 
   # Custom permissions
   set_perm $MODPATH/system/bin/backtap 0 2000 0755 u:object_r:system_file:s0
-  set_perm $MODPATH/common/service.sh 0 2000 0755 u:object_r:system_file:s0
+  set_perm $MODPATH/service.sh 0 2000 0755 u:object_r:system_file:s0
 }

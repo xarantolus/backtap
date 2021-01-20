@@ -64,6 +64,8 @@ func LogCat(ctx context.Context) (events chan FingerEvent, err error) {
 			}
 		}
 
+		close(events)
+
 		// Panicing here instead of moving it to main makes the logic a bit easier
 		err := scan.Err()
 		if err != nil {
