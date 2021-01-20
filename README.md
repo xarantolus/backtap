@@ -144,3 +144,7 @@ Adapting this program to run on other phone models and configurations should be 
 The Android lockscreen heavily restricts how other programs can interact with it, e.g. the `input tap` command doesn't work there at all. 
 
 My solution is not just faster, but also doesn't have this restriction and could thus be used for automation of lockscreen taps (if anyone wanted to do that...).
+
+
+### [License](LICENSE)
+This is free as in freedom software. Do whatever you like with it.
