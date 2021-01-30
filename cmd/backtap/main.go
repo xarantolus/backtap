@@ -137,7 +137,11 @@ func main() {
 			}
 		case listener.FINGER_DOWN:
 			debug("FINGER_DOWN fired")
+
+			var started = make(chan bool)
+
 			go func() {
+				started <- true
 				select {
 				case <-buttonAbort:
 					debug("aborted HOME command")
@@ -161,6 +165,9 @@ func main() {
 				}
 			}()
 
+			// Wait until the goroutine is actually running
+			<-started
+			close(started)
 		}
 	}
 }
