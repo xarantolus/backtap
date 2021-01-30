@@ -1,7 +1,7 @@
 set -e
 
 # We just build the executable
-./build.sh
+bash ./build.sh
 
 mkdir -p module/backtap/system/bin
 
