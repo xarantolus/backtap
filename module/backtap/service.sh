@@ -3,6 +3,8 @@
 # This script runs on boot. Here we can start our service
 MODDIR=${0%/*}
 
+echo "Waiting for user to unlock/decrypt phone" > /cache/backtap.log
+
 # Wait until boot & decryption finished
 until [ -d /sdcard/Download ]
 do
@@ -15,7 +17,8 @@ pgrep zygote > /dev/null && {
   done
 }
 
-chmod +x /system/bin/backtap
+BTPATH="/system/bin/backtap"
 
-setsid backtap >/sdcard/backtap.log 2>&1 < /dev/null &
+chmod +x "$BTPATH"
 
+nohup "$BTPATH" -debug >>/cache/backtap.log 2>&1 &
