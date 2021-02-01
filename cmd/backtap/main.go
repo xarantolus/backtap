@@ -127,7 +127,7 @@ func main() {
 				} else {
 					// Top left coordinates
 					debug("Running TOUCH command")
-					err = input.TouchUpDown(touchDevice, 35, 105)
+					err = input.TouchUpDown(touchDevice, 50, 125)
 					if err != nil {
 						panic("running touch command: " + err.Error())
 					}
