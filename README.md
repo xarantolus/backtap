@@ -22,7 +22,7 @@ This program *might* work on your phone if all of these conditions are met:
 * The command `echo -n 200 > /sys/devices/virtual/timed_output/vibrator/enable` in a root shell vibrates your phone
 * You have adb logs enabled ("Log buffer size" in developer options should *not* be set to "Off")
 * The `singletap` executable (that can be built from [`cmd/singletap/main.go`](cmd/singletap/main.go)) correctly taps the top left of your screen 
-* The output of `getevent -pl` (again, in a root shell on your phone) looks something like this (`/dev/input/event1` and `/dev/input/event2` are particularly important)
+* The output of `getevent -pl` (again, in a root shell on your phone) looks something like this (`/dev/input/event0` (power button) and `/dev/input/event1` (display) are particularly important)
 
 <details>
 <summary>Expected output</summary>
