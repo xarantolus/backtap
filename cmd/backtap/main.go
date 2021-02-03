@@ -62,13 +62,6 @@ func main() {
 	}
 	defer touchDevice.Close()
 
-	debug("opening home button device")
-	homeDevice, err := os.OpenFile("/dev/input/event2", os.O_WRONLY, os.ModeDevice)
-	if err != nil {
-		panic("opening home button device input file: " + err.Error())
-	}
-	defer homeDevice.Close()
-
 	// The last time a certain action was performed
 	var (
 		lastTapTime   time.Time
@@ -144,24 +137,24 @@ func main() {
 				started <- true
 				select {
 				case <-buttonAbort:
-					debug("aborted HOME command")
+					debug("aborted APP_SWITCH command")
 					return
 				case <-time.After(250 * time.Millisecond):
-					debug("Running HOME command")
+					debug("Running APP_SWITCH command")
 
 					backButtonLock.Lock()
 					backButtonPressed = true
 					backButtonLock.Unlock()
 
-					err := exec.Command("input", "keyevent", "KEYCODE_HOME").Run()
+					err := exec.Command("input", "keyevent", "KEYCODE_APP_SWITCH").Run()
 					if err != nil {
-						panic("pressing home button: " + err.Error())
+						panic("pressing APP_SWITCH button: " + err.Error())
 					}
 					err = input.Vibrate(vibratorDevice, 50)
 					if err != nil {
 						panic("cannot vibrate: " + err.Error())
 					}
-					debug("Finished HOME command")
+					debug("Finished APP_SWITCH command")
 				}
 			}()
 

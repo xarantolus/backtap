@@ -8,7 +8,7 @@ When the phone is locked, the fingerprint reader serves its normal purpose of un
 There are three different commands:
 * Tapping the fingerprint reader one time is the same as clicking in the top left corner of the phone. This is where menu, back or home buttons are positioned. That way, instead of reaching the top of the phone, you just tap the fingerprint reader.
 * Tapping the fingerprint reader twice (*tap tap*) does the same as pressing the off button of your phone, it just turns off the screen. This is especially convenient when the off button is located at the side of the phone, which makes it hard to reach.
-* Holding the fingerprint sensor a bit longer does the same as a home button. That can be useful if your phone doesn't have any buttons at the front.
+* Holding the fingerprint sensor a bit longer opens the "recent apps" menu. That makes switching apps easier, especially if your phone doesn't have any buttons at the front.
 
 ### Supported phones
 Whether or not this works on your phone might not only depend on the model used, but also the operating system. Different variants of Android might not behave in the way this module expects them to.
@@ -125,7 +125,7 @@ I then combined this method of clicking and a new method to read the system log 
 
 If the program is running, it will detect clicks on the fingerprint sensor. This detection might not seem optimal (it basically just scans the `adb logcat` output for certain lines), but it is surprisingly fast. Like, *very* fast.
 
-Whenever an event happens, the program interprets it and either starts a *very fast* click, a *quite fast* screen off or a *quite slow* home button command (this last one still uses the `input` command). And that's exactly what I wanted.
+Whenever an event happens, the program interprets it and either starts a *very fast* click, a *quite fast* screen off or a *quite slow* "recent" button command (this last one still uses the `input` command). And that's exactly what I wanted.
 
 ### Building
 Since this is a [Go](https://golang.org/) program, compiling the code should be quite easy (I promise!). You do need to know the architecture your phone uses, but it's likely `arm64`.
