@@ -133,7 +133,7 @@ Since this is a [Go](https://golang.org/) program, compiling the code should be 
 If that's the case, you can run...
 * [`build.sh`](build.sh) to build the program
 * [`deploy.sh`](deploy.sh) to build the program and push it to your phone (if it has an `/sbin` directory, you can now use it from the command line)
-* [`build-module.sh`](build-module.sh) to package this program in a Magisk Module you can install from Magisk Manager. It will run `backtap` on boot, which is exactly what I wanted.
+* [`build-module.sh`](build-module.sh) to package this program in a Magisk Module you can install from Magisk Manager. It will run `backtap` on boot. To build a debug version that creates a log file at `/cache/backtap.log`, you can pass `-debug` to this script as first parameter.
 
 If not, you have to look into what the `GOARCH` environment variable does and then edit `build.sh` to use the correct value for your phone.
 
