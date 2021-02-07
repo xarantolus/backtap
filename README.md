@@ -140,11 +140,5 @@ If not, you have to look into what the `GOARCH` environment variable does and th
 ### Adapting to other phones
 Adapting this program to run on other phone models and configurations should be possible. You would have to change the `logcat` line that is detected and the way these commands are executed. It is likely that the names of input devices differ. The way the touchscreen tap works should be the same, as that's based on on a protocol that seems to have been used for quite a long time by many different companies (since it's part of Linux).
 
-### Something interesting
-The Android lockscreen heavily restricts how other programs can interact with it, e.g. the `input tap` command doesn't work there at all. 
-
-My solution is not just faster, but also doesn't have this restriction and could thus be used for automation of lockscreen taps (if anyone wanted to do that...).
-
-
 ### [License](LICENSE)
 This is free as in freedom software. Do whatever you like with it.
