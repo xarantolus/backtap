@@ -39,7 +39,7 @@ jobs:
         tag_name: ${{ env.TAG_NAME }}
         name: ${{ env.RTITLE }}
         fail_on_unmatched_files: true
-        body: "Only flash this module on phones that are supported. I am not responsible for any damages to your hardware."
+        body: "Only flash this module on phones that are supported. I am not responsible for any damage to your hardware."
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   
