@@ -56,14 +56,14 @@ add device 7: /dev/input/event1
 Putting finger in top left corner:
 
 $ getevent
-/dev/input/event1: 0003 0039 000000e7 -
-/dev/input/event1: 0001 014a 00000001 -
-/dev/input/event1: 0001 0145 00000001 -
-/dev/input/event1: 0003 0035 00000078 -
-/dev/input/event1: 0003 0036 000000e2 -
-/dev/input/event1: 0003 0030 00000006 -
-/dev/input/event1: 0000 0000 00000000 -
-/dev/input/event1: 0003 0039 ffffffff -
+/dev/input/event1: 0003 0039 000000e7
+/dev/input/event1: 0001 014a 00000001
+/dev/input/event1: 0001 0145 00000001
+/dev/input/event1: 0003 0035 00000078
+/dev/input/event1: 0003 0036 000000e2
+/dev/input/event1: 0003 0030 00000006
+/dev/input/event1: 0000 0000 00000000
+/dev/input/event1: 0003 0039 ffffffff
 /dev/input/event1: 0001 014a 00000000
 /dev/input/event1: 0001 0145 00000000
 /dev/input/event1: 0000 0000 00000000
@@ -71,16 +71,16 @@ $ getevent
 Same thing:
 
 $ getevent
-/dev/input/event1: EV_ABS       ABS_MT_TRACKING_ID   000000e8 - *
-/dev/input/event1: EV_KEY       BTN_TOUCH            DOWN     - *
-/dev/input/event1: EV_KEY       BTN_TOOL_FINGER      DOWN     - *
-/dev/input/event1: EV_ABS       ABS_MT_POSITION_X    0000007a -*
-/dev/input/event1: EV_ABS       ABS_MT_POSITION_Y    000000a3 -*
-/dev/input/event1: EV_ABS       ABS_MT_TOUCH_MAJOR   00000005 -*
-/dev/input/event1: EV_SYN       SYN_REPORT           00000000 -*
-/dev/input/event1: EV_ABS       ABS_MT_TOUCH_MAJOR   00000006 ?
-/dev/input/event1: EV_SYN       SYN_REPORT           00000000 ?
-/dev/input/event1: EV_ABS       ABS_MT_TRACKING_ID   ffffffff -*
+/dev/input/event1: EV_ABS       ABS_MT_TRACKING_ID   000000e8
+/dev/input/event1: EV_KEY       BTN_TOUCH            DOWN
+/dev/input/event1: EV_KEY       BTN_TOOL_FINGER      DOWN
+/dev/input/event1: EV_ABS       ABS_MT_POSITION_X    0000007a
+/dev/input/event1: EV_ABS       ABS_MT_POSITION_Y    000000a3
+/dev/input/event1: EV_ABS       ABS_MT_TOUCH_MAJOR   00000005
+/dev/input/event1: EV_SYN       SYN_REPORT           00000000
+/dev/input/event1: EV_ABS       ABS_MT_TOUCH_MAJOR   00000006
+/dev/input/event1: EV_SYN       SYN_REPORT           00000000
+/dev/input/event1: EV_ABS       ABS_MT_TRACKING_ID   ffffffff
 /dev/input/event1: EV_KEY       BTN_TOUCH            UP
 /dev/input/event1: EV_KEY       BTN_TOOL_FINGER      UP
 /dev/input/event1: EV_SYN       SYN_REPORT           00000000

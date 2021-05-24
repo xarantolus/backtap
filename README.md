@@ -3,7 +3,7 @@ Phones have become larger in recent years. While this has in general been an imp
 
 What if we could combine all these problems into one solution? That's what `backtap` does.
 
-When the phone is locked, the fingerprint reader serves its normal purpose of unlocking the phone. When the phone is unlocked, it gains *special abilities*.
+When the phone is locked, the fingerprint reader serves its normal purpose of unlocking the phone. When the phone is unlocked, it gains ✨*special abilities*✨.
 
 There are three different commands:
 * Tapping the fingerprint reader one time is the same as clicking in the top left corner of the phone. This is where menu, back or home buttons are positioned. That way, instead of reaching the top of the phone, you just tap the fingerprint reader.
