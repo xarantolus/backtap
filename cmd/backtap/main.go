@@ -36,14 +36,6 @@ func main() {
 
 	// Open all device files we want to write to
 
-	// Vibrator: When we write a number as string, the devices vibrates for that amount in milliseconds
-	debug("opening vibrator device")
-	vibratorDevice, err := os.OpenFile("/sys/devices/virtual/timed_output/vibrator/enable", os.O_WRONLY, os.ModeDevice)
-	if err != nil {
-		panic("cannot open vibrator device: " + err.Error())
-	}
-	defer vibratorDevice.Close()
-
 	// Key: This input allows us to simulate a power button press
 	debug("opening key device")
 	keyDevice, err := os.OpenFile("/dev/input/event0", os.O_WRONLY, os.ModeDevice)
@@ -139,7 +131,7 @@ func main() {
 				case <-buttonAbort:
 					debug("aborted APP_SWITCH command")
 					return
-				case <-time.After(250 * time.Millisecond):
+				case <-time.After(200 * time.Millisecond):
 					debug("Running APP_SWITCH command")
 
 					backButtonLock.Lock()
@@ -149,10 +141,6 @@ func main() {
 					err := exec.Command("input", "keyevent", "KEYCODE_APP_SWITCH").Run()
 					if err != nil {
 						panic("pressing APP_SWITCH button: " + err.Error())
-					}
-					err = input.Vibrate(vibratorDevice, 50)
-					if err != nil {
-						panic("cannot vibrate: " + err.Error())
 					}
 					debug("Finished APP_SWITCH command")
 				}

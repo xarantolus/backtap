@@ -13,14 +13,13 @@ There are three different commands:
 ### Supported phones
 Whether or not this works on your phone might not only depend on the model used, but also the operating system. Different variants of Android might not behave in the way this module expects them to.
 
-The only system I tested this on is [LineageOS 17.1](https://lineageos.org/) for the [Xiaomi Mi Mix 2](https://wiki.lineageos.org/devices/chiron) in combination with [Magisk 21.4](https://github.com/topjohnwu/Magisk).
+The only system I tested this on is [LineageOS 18.1](https://lineageos.org/) (Android 11) for the [Xiaomi Mi Mix 2](https://wiki.lineageos.org/devices/chiron) in combination with [Magisk 23.0](https://github.com/topjohnwu/Magisk). The older version (before 2021-05-27 / last commit with it is `cbc2417`) worked on LineageOS 17.1 (Android 10), but I no longer use that version.
 
 The program is very device specific and will very likely not work at all if you don't have the *exact* same configuration. It should however be possible to [adapt the program](#adapting-to-other-phones) to run on your phone.
 
 This program *might* work on your phone if all of these conditions are met:
 * You have Magisk installed
-* The command `echo -n 200 > /sys/devices/virtual/timed_output/vibrator/enable` in a root shell vibrates your phone
-* You have adb logs enabled ("Log buffer size" in developer options should *not* be set to "Off")
+* The commands `echo -n 200 > /sys/class/leds/vibrator/duration && echo -n 1 > /sys/class/leds/vibrator/activate` in a root shell vibrates your phone
 * The `singletap` executable (that can be built from [`cmd/singletap/main.go`](cmd/singletap/main.go)) correctly taps the top left of your screen 
 * The output of `getevent -pl` (again, in a root shell on your phone) looks something like this (`/dev/input/event0` (power button) and `/dev/input/event1` (display) are particularly important)
 
@@ -138,7 +137,7 @@ If that's the case, you can run...
 If not, you have to look into what the `GOARCH` environment variable does and then edit `build.sh` to use the correct value for your phone.
 
 ### Adapting to other phones
-Adapting this program to run on other phone models and configurations should be possible. You would have to change the `logcat` line that is detected and the way these commands are executed. It is likely that the names of input devices differ. The way the touchscreen tap works should be the same, as that's based on on a protocol that seems to have been used for quite a long time by many different companies (since it's part of Linux).
+Adapting this program to run on other phone models and configurations should be possible. You would have to change the `logcat` line that is detected and the way these commands are executed. It is likely that the names of input devices differ. The way the touchscreen tap works should be the same, as that's based on on the Linux multitouch protocol.
 
 ### [License](LICENSE)
 This is free as in freedom software. Do whatever you like with it.

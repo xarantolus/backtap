@@ -6,7 +6,7 @@ import (
 
 /*
 Press power button:
-$ getevents
+$ getevent
 
 /dev/input/event0: 0001 0074 00000001
 /dev/input/event0: 0000 0000 00000000

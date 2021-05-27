@@ -1,6 +1,6 @@
 id=backtap
 name=backtap
-version=v1.0
-versionCode=00100
+version=v2.0
+versionCode=00200
 author=xarantolus
 description=Enables several gestures when tapping the fingerprint sensor of a Xiaomi Mi Mix 2
