@@ -89,11 +89,13 @@ add device 7: /dev/input/event1
 ### How it works
 I have tried several variations of this idea for quite some time. This program is basically just the next iteration, but likely the final one as this is as low-level as it gets.
 
+If you are only interested in the part that taps the Android screen, you can also read my [blog post](https://xarantolus.github.io/blog/how-to-tap-the-android-screen-from-the-underlying-linux-system).
+
 #### First idea
 My first implementation was done using [Tasker](https://play.google.com/store/apps/details?id=net.dinglisch.android.taskerm), an automation app. I only implemented the top left click as anything more would have become very complicated with visual programming.
 The concept was simple: Whenever a certain line appeared in the system log (indicating that a finger was put on/off the sensor), it would run the command `input tap x y`, which taps the specified coordinates of the screen.
 
-The problem with this was that this method is *noticeably* slow. As in I clicked the sensor, waited for some time and only then the action happend. It took about 500-1000ms, which was just too slow to be usable.
+The problem with this was that this method is *noticeably* slow. As in I clicked the sensor, waited for some time and only then the action happened. It took about 500-1000ms, which was just too slow to be usable.
 
 #### Speeding up
 In my search for a faster solution I took a look at what the input command actually does: it is a shell script starting a whole Java program that writes a quite small signal to the display. You can cut out two middlemen if done right.
