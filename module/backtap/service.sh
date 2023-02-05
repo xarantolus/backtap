@@ -3,9 +3,9 @@
 # This script runs on boot. Here we can start our service
 MODDIR=${0%/*}
 
-# Log debug message 
+# Log debug message
 if [ -f "$MODDIR/DEBUG" ]; then
-  echo "Waiting for user to unlock/decrypt phone" > /cache/backtap.log
+  echo "$(date '+%Y/%m/%d %H:%M:%S') Waiting for user to unlock/decrypt phone" > /cache/backtap.log
 fi
 
 # Wait until boot & decryption finished
@@ -19,6 +19,10 @@ pgrep zygote > /dev/null && {
     sleep 5
   done
 }
+
+if [ -f "$MODDIR/DEBUG" ]; then
+  echo "`date '+%Y/%m/%d %H:%M:%S'` Ready, starting service"
+fi
 
 # Make backtap executable in case it isn't
 BTPATH="/system/bin/backtap"
