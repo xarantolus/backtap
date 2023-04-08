@@ -16,22 +16,23 @@ jobs:
 
     - name: Check out code into the Go module directory
       uses: actions/checkout@v2
-      
+
     - name: Runnning build script (release)
       shell: bash
       run: |
         bash ./build-module.sh
-      
+
     - name: Runnning build script (debug)
       shell: bash
       run: |
         bash ./build-module.sh -debug
-        
-    - name: Generate tag name
-      run: echo "TAG_NAME=$(git rev-parse --short HEAD)" >> $GITHUB_ENV  
+
+    - name: Parse tag name
+      run: echo "TAG_NAME=$(cat module/backtap/module.prop | grep version= | cut -d= -f2 -)" >> $GITHUB_ENV
+
     - name: Generate release title
       run: echo "RTITLE=$(git log -n 1 --oneline | cut -d' ' -f2- -)"  >> $GITHUB_ENV
-      
+
     - name: Upload release
       uses: softprops/action-gh-release@v1
       with:
@@ -42,4 +43,4 @@ jobs:
         body: "Only flash this module on phones that are supported. I am not responsible for any damage to your hardware."
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  
+
